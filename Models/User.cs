@@ -8,12 +8,12 @@ namespace RoomBooking.Models
 
         [Required]
         [StringLength(50)]
-        public string Username { get; set; }
+        public required string Username { get; set; }
 
         [Required]
-        public string PasswordHash { get; set; }
+        public required string PasswordHash { get; set; }
 
         [Required]
-        public string Role { get; set; }
+        public required string Role { get; set; }
     }
 }

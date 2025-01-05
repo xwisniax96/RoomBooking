@@ -8,11 +8,11 @@ namespace RoomBooking.Models
 
         [Required]
         public int UserId { get; set; }
-        public User User { get; set; }
+        public required User User { get; set; }
 
         [Required]
         public int RoomId { get; set; }
-        public Room Room { get; set; }
+        public required Room Room { get; set; }
 
         [Required]
         public DateTime BookingDate { get; set; }

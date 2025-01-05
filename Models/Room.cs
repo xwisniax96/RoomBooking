@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace RoomBooking.Models
 {
@@ -8,10 +10,11 @@ namespace RoomBooking.Models
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required]
         public int Capacity { get; set; }
-    }
 
+    }
 }
+

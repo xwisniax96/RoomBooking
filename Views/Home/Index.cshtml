@@ -1,8 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<RoomBooking.Models.Room>
+
+<h1>Rooms</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Capacity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.Name</td>
+                    <td>@room.Capacity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No rooms available.</p>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<a href="/Home/Create">Add New Room</a>
