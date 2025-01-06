@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RoomBooking.Data;
+using RoomBooking.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Pobierz connection string z konfiguracji
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 // Dodaj kontekst bazy danych do kontenera us³ug
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -17,6 +18,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Dodaj obs³ugê kontrolerów i widoków
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IRoomService, RoomService>();
+
 
 // Buduj aplikacjê
 var app = builder.Build();
