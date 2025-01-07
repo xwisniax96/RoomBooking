@@ -1,0 +1,51 @@
+﻿@model Guest
+
+@{
+    ViewData["Title"] = "Rezerwacja";
+}
+
+<h1>Rezerwacja</h1>
+
+<form asp-controller="Guest" asp-action="Reserve" method="post">
+    <input type="hidden" name="RoomId" value="@Model.RoomId" />
+
+    <!-- Imię -->
+    <div class="form-group">
+        <label for="firstName">Imię:</label>
+        <input type="text" id="firstName" name="FirstName" class="form-control" value="@Model.FirstName" required maxlength="100" pattern="^[a-zA-Z]+$" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <!-- Nazwisko -->
+    <div class="form-group">
+        <label for="lastName">Nazwisko:</label>
+        <input type="text" id="lastName" name="LastName" class="form-control" value="@Model.LastName" required maxlength="100" pattern="^[a-zA-Z]+$" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="Email" class="form-control" value="@Model.Email" required pattern="^[a-z0-9._%+-]+[a-z0-9.-]+\.[a-z]{2,}$" />
+        <small class="form-text text-muted">Podaj prawidłowy adres email, np. jan.kowalski@example.com</small>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- Numer telefonu -->
+    <div class="form-group">
+        <label for="phoneNumber">Numer telefonu:</label>
+        <div class="d-flex">
+            <select id="countryCode" name="CountryCode" class="form-control" style="max-width: 100px;" required>
+                <option value="+48">+48 (Polska)</option>
+                <option value="+49">+49 (Niemcy)</option>
+                <option value="+44">+44 (Wielka Brytania)</option>
+                <option value="+1">+1 (USA)</option>
+            </select>
+            <input type="tel" id="phoneNumber" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" pattern="\d{9}" placeholder="Numer (np. 123456789)" required style="flex: 1;" />
+        </div>
+        <small class="form-text text-muted">Podaj numer telefonu (9 cyfr).</small>
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zarezerwuj</button>
+</form>

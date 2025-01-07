@@ -1,0 +1,36 @@
+﻿@model List<Room>
+
+@{
+    ViewData["Title"] = "Available room";
+}
+
+<h1>Available room</h1>
+
+@if (Model.Count == 0)
+{
+    <p>No available rooms at this moment. Change number of guests or come back later</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Capacity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model)
+            {
+                <tr>
+                    <td>@room.Name</td>
+                    <td>@room.Capacity</td>
+                    <td>
+                        <a asp-controller="Guest" asp-action="Reserve" asp-route-roomId="@room.Id" class="btn btn-primary">Book</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

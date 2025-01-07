@@ -10,5 +10,6 @@ namespace RoomBooking.Services
         Task AddNewRoom(Room room);
         Task UpdateRoom(Room room);
         Task DeleteRoom(int id);
+        Task<List<Room>> GetAllRoomsWithGuests();
     }
 }

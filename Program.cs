@@ -19,6 +19,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 // Dodaj obs³ugê kontrolerów i widoków
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IGuestService, GuestService>();
+
 
 
 // Buduj aplikacjê

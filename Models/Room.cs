@@ -15,6 +15,8 @@ namespace RoomBooking.Models
         [Required]
         public int Capacity { get; set; }
 
+        public List<Guest>? Guests { get; set; }
+
     }
 }
 

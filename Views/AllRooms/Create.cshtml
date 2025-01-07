@@ -8,15 +8,41 @@
 
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
+
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
+        <input asp-for="Name" class="form-control" required maxlength="100" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="Capacity" class="control-label"></label>
-        <input asp-for="Capacity" class="form-control" type="number" />
+        <input asp-for="Capacity" class="form-control" type="number" min="1" required />
         <span asp-validation-for="Capacity" class="text-danger"></span>
     </div>
+
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const capacity = document.querySelector("[asp-for='Capacity']").value;
+        const name = document.querySelector("[asp-for='Name']").value;
+
+        let isValid = true;
+
+        if (!name || name.trim() === "") {
+            alert("Nazwa pokoju nie może być pusta.");
+            isValid = false;
+        }
+
+        if (capacity < 1) {
+            alert("Pojemność pokoju musi być większa od 0.");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+</script>

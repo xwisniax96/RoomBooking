@@ -1,0 +1,21 @@
+﻿@model List<RoomBooking.Models.Guest>
+
+@{
+    ViewData["Title"] = "Guests in Room";
+}
+
+<h1>Guests in Room</h1>
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var guest in Model)
+        {
+            <li>@guest.FirstName @guest.LastName - @guest.Email</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No guests have reserved this room.</p>
+}

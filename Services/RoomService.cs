@@ -43,5 +43,12 @@ namespace RoomBooking.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<Room>> GetAllRoomsWithGuests()
+        {
+            return await _context.Rooms
+                .Include(r => r.Guests) 
+                .ToListAsync();
+        }
     }
 }

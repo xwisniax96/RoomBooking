@@ -12,8 +12,8 @@ using RoomBooking.Data;
 namespace RoomBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250106144827_migracja")]
-    partial class migracja
+    [Migration("20250107134921_NullableGuestList")]
+    partial class NullableGuestList
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,7 +227,7 @@ namespace RoomBooking.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("RoomBooking.Models.Booking", b =>
+            modelBuilder.Entity("RoomBooking.Models.Guest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -235,22 +235,32 @@ namespace RoomBooking.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoomId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Bookings");
+                    b.ToTable("Guests");
                 });
 
             modelBuilder.Entity("RoomBooking.Models.Room", b =>
@@ -351,23 +361,20 @@ namespace RoomBooking.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RoomBooking.Models.Booking", b =>
+            modelBuilder.Entity("RoomBooking.Models.Guest", b =>
                 {
                     b.HasOne("RoomBooking.Models.Room", "Room")
-                        .WithMany()
+                        .WithMany("Guests")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RoomBooking.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Room");
+                });
 
-                    b.Navigation("User");
+            modelBuilder.Entity("RoomBooking.Models.Room", b =>
+                {
+                    b.Navigation("Guests");
                 });
 #pragma warning restore 612, 618
         }

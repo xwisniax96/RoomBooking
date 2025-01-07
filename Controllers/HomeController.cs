@@ -22,8 +22,8 @@ namespace RoomBooking.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var rooms = await _roomService.GetAll();
-            return View(rooms); 
+            var rooms = await _roomService.GetAllRoomsWithGuests();
+            return View(rooms);
         }
 
        
