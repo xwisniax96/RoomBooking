@@ -13,15 +13,18 @@
 
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" required />
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control" required></textarea>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Address" class="control-label"></label>
-        <input asp-for="Address" class="form-control" required />
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary" onclick="return confirmSubmit()">Save</button>
@@ -70,20 +73,30 @@
 
     <div class="form-group">
         <label for="Name">Name:</label>
-        <input type="text" id="Name" name="Name" class="form-control" required />
+        <input type="text" id="Name" name="Name" class="form-control" required pattern="^[A-Za-z]+$" />
+        <span id="nameError" style="color: red; display:none;">Name must contain only letters.</span>
     </div>
+
     <div class="form-group">
         <label for="Email">Email:</label>
         <input type="email" id="Email" name="Email" class="form-control" required />
+        <span id="emailError" style="color: red; display:none;">Please enter a valid email address.</span>
     </div>
+
     <div class="form-group">
         <label for="Phone">Phone:</label>
-        <input type="tel" id="Phone" name="Phone" class="form-control" required />
+        <input type="tel" id="Phone" name="Phone" class="form-control" required pattern="^\d{9}$" />
+        <span id="phoneError" style="color: red; display:none;">Phone must contain exactly 9 digits.</span>
     </div>
+
     <div class="form-group">
         <label for="WorkPosition">Position:</label>
-        <input type="text" id="WorkPosition" name="WorkPosition" class="form-control" required />
+        <input type="text" id="WorkPosition" name="WorkPosition" class="form-control" required pattern="^[A-Za-z]+$" />
+        <span id="positionError" style="color: red; display:none;">Position must contain only letters.</span>
     </div>
+
 
     <button type="submit" class="btn btn-success">Add Employee</button>
 </form>
+
+
