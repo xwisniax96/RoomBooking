@@ -9,7 +9,7 @@ namespace RoomBooking.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IRoomService _roomService;
-
+         
         public HomeController
         (
             ILogger<HomeController> logger,
@@ -22,7 +22,7 @@ namespace RoomBooking.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var rooms = await _roomService.GetAllRoomsWithGuests();
+            var rooms = await _roomService.GetAllRoomsWithGuestsAndHotels();
             return View(rooms);
         }
 

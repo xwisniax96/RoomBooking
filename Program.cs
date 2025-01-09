@@ -1,14 +1,15 @@
-using Microsoft.AspNetCore.Identity;
+ï»¿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RoomBooking.Data;
 using RoomBooking.Services;
+using RoomBooking.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Pobierz connection string z konfiguracji
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContext") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-// Dodaj kontekst bazy danych do kontenera us³ug
+// Dodaj kontekst bazy danych do kontenera usï¿½ug
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -16,17 +17,29 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Dodaj obs³ugê kontrolerów i widoków
+// Dodanie kontrolerï¿½w i widokï¿½w
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IGuestService, GuestService>();
+builder.Services.AddScoped<IHotelService, HotelService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
 
 
 
-// Buduj aplikacjê
+// Buduj aplikacjï¿½
 var app = builder.Build();
 
-// Konfiguracja zapytañ HTTP
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+};
+
+// Konfiguracja zapytaï¿½ HTTP
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -39,10 +52,12 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+//app.MapRoomEndpoints();
+
 app.Run();
 builder.WebHost.ConfigureKestrel(options =>
 {
-    // Konfiguracja dla certyfikatu deweloperskiego (jeœli nie masz certyfikatu .pfx)
+    // Konfiguracja dla certyfikatu deweloperskiego (jeï¿½li nie masz certyfikatu .pfx)
     options.ListenAnyIP(5001, listenOptions =>
     {
         listenOptions.UseHttps();

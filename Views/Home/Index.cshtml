@@ -1,15 +1,15 @@
 ﻿@model List<RoomBooking.Models.Room>
-
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <h1>Welcome to Room Booking!</h1>
 <p>Manage rooms efficiently using our application.</p>
 
+<a asp-controller="Hotel" asp-action="Index" class="btn btn-success">Go to Hotel List</a>
+
 <a asp-controller="AllRooms" asp-action="Create" class="btn btn-primary">Add New Room</a>
 <p>Find a room that suits u the best:</p>
-<a asp-controller="Guest" asp-action="Index" class="btn btn-primary">Reserve</a>
+<a asp-controller="Guest" asp-action="GuestNumber" class="btn btn-primary">Reserve</a>
 
 
 <h2>Available Rooms</h2>
@@ -22,6 +22,7 @@
                 <th>Name</th>
                 <th>Capacity</th>
                 <th>Status</th>
+                <th>Hotel</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -53,6 +54,11 @@
                         {
                             <span class="text-success">Available</span>
                         }
+                    </td>
+                    <td>
+                        <a asp-controller="Hotel" asp-action="Edit" asp-route-id="@room.HotelId">
+                            @room.Hotel?.Name
+                        </a>
                     </td>
                     <td>
                         <a asp-controller="AllRooms" asp-action="Edit" asp-route-id="@room.Id" class="btn btn-warning">Edit</a>

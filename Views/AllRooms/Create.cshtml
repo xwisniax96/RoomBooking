@@ -21,8 +21,18 @@
         <span asp-validation-for="Capacity" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label for="HotelId" class="control-label">Select Hotel:</label>
+        <select asp-for="HotelId" class="form-control" asp-items="ViewBag.Hotels">
+            <option value="">-- Select Hotel --</option>
+        </select>
+        <span asp-validation-for="HotelId" class="text-danger"></span>
+    </div>
+
+
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
+
 
 <script>
     document.querySelector("form").addEventListener("submit", function (e) {

@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Find room";
+}
+
+<h1>Find your room</h1>
+
+<form asp-controller="Guest" asp-action="Search" method="post">
+    <div class="form-group">
+        <label for="capacity">Number of Guests:</label>
+        <input type="number" id="capacity" name="capacity" class="form-control" min="1" required />
+        <!-- Usunięto asp-validation-for -->
+        <span class="text-danger" id="capacityError"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Find</button>
+</form>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const capacity = document.getElementById("capacity").value;
+        if (capacity < 1) {
+            e.preventDefault();
+            document.getElementById("capacityError").textContent = "Liczba gości musi być większa od 0.";
+        }
+    });
+</script>

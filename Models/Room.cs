@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RoomBooking.Models
 {
@@ -16,6 +17,10 @@ namespace RoomBooking.Models
         public int Capacity { get; set; }
 
         public List<Guest>? Guests { get; set; }
+
+        public int HotelId { get; set; }
+        [ForeignKey("HotelId")]
+        public Hotel? Hotel { get; set; }
 
     }
 }

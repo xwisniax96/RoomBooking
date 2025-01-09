@@ -16,6 +16,8 @@ namespace RoomBooking.Data
         public new DbSet<User> Users { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
     
     }

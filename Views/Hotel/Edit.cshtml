@@ -1,0 +1,89 @@
+﻿@model Hotel
+@{
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+
+<h1>Edit Hotel</h1>
+
+<form id="editForm" asp-action="SaveAndBack" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" required></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address" class="control-label"></label>
+        <input asp-for="Address" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary" onclick="return confirmSubmit()">Save</button>
+    <button type="button" class="btn btn-secondary" onclick="goBack()">Go Back</button>
+</form>
+
+<script type="text/javascript">
+    function confirmSubmit() {
+        return window.confirm("Czy na pewno chcesz zapisać zmiany?");  // Okno potwierdzenia
+    }
+     function goBack() {
+        window.location.href = '@Url.Action("Index", "Home")';  // Przekierowanie do Home/Index
+    }
+</script>
+
+
+<h2>Employees</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Position</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in ViewBag.Employees)
+        {
+            <tr>
+                <td>@employee.Name</td>
+                <td>@employee.Email</td>
+                <td>@employee.Phone</td>
+                <td>@employee.WorkPosition</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Add Employee</h3>
+
+<form asp-action="AddEmployee" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="HotelId" value="@Model.Id" />
+
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <input type="text" id="Name" name="Name" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" id="Email" name="Email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="Phone">Phone:</label>
+        <input type="tel" id="Phone" name="Phone" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="WorkPosition">Position:</label>
+        <input type="text" id="WorkPosition" name="WorkPosition" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Employee</button>
+</form>

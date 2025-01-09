@@ -14,10 +14,11 @@ namespace RoomBooking.Controllers
         {
             _guestService = guestService;
         }
-
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult GuestNumber()
         {
-            return View();
+
+            return View("~/Views/Guest/GuestNumber.cshtml");
         }
 
         [HttpPost]
@@ -52,15 +53,6 @@ namespace RoomBooking.Controllers
 
             guest.Room = await _guestService.GetRoomById(guest.RoomId);
 
-            /*if (!ModelState.IsValid)
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
-                                               .Select(e => e.ErrorMessage)
-                                               .ToList();
-                // Możesz zalogować błędy lub sprawdzić je w debuggerze
-                Debug.WriteLine(string.Join("\n", errors));
-                return View(guest);
-            }*/
             if (!Regex.IsMatch(guest.PhoneNumber, @"^\d{9}$"))
             {
                 ModelState.AddModelError("PhoneNumber", "Numer telefonu musi składać się z 9 cyfr.");

@@ -1,0 +1,38 @@
+﻿@model List<Hotel>
+
+<h1>Hotels</h1>
+<a asp-controller="Hotel" asp-action="Create" class="btn btn-primary">Add new Hotel</a> 
+<button type="button" class="btn btn-secondary" onclick="goBack()">Go Back</button>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hotel in Model)
+        {
+            <tr>
+                <td>@hotel.Name</td>
+                <td>@hotel.Description</td>
+                <td>@hotel.Address</td>
+                <td>
+                    <a asp-controller="Hotel" asp-action="Edit" asp-route-id="@hotel.Id" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function goBack() {
+        window.location.href = '@Url.Action("Index", "Home")';  // Przekierowanie do Home/Index
+    }
+</script>
+
+

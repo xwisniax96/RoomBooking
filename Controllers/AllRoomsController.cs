@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RoomBooking.Models;
 using RoomBooking.Services;
 using System.Diagnostics;
@@ -8,14 +9,18 @@ namespace RoomBooking.Controllers
     public class AllRoomsController : Controller
     {
         private readonly IRoomService _roomService;
-        public AllRoomsController(IRoomService roomService)
+        private readonly IHotelService _hotelService;
+        public AllRoomsController(IRoomService roomService ,IHotelService hotelService)
         {
                 _roomService = roomService;
+                _hotelService = hotelService;
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var hotels = await _hotelService.GetAllHotelsAsync();
+            ViewBag.Hotels = new SelectList(hotels, "Id", "Name");
             return View("~/Views/AllRooms/Create.cshtml");
 
         }
@@ -23,17 +28,6 @@ namespace RoomBooking.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Room room)
         {
-            //Check errors 
-            /*
-                        if (!ModelState.IsValid)
-                        {
-                            var errors = ModelState.Values.SelectMany(v => v.Errors);
-                            foreach (var error in errors)
-                            {
-                                Debug.WriteLine(error.ErrorMessage); // Wypisuje błędy w konsoli
-                            }
-                        }*/
-
             if (string.IsNullOrWhiteSpace(room.Name))
             {
                 ModelState.AddModelError("Name", "Nazwa pokoju nie może być pusta.");
@@ -44,13 +38,28 @@ namespace RoomBooking.Controllers
                 ModelState.AddModelError("Capacity", "Pojemność pokoju musi być większa od 0.");
             }
 
+            if (room.HotelId <= 0)
+            {
+                ModelState.AddModelError("HotelId", "Musisz wybrać hotel.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    Debug.WriteLine($"{state.Key}: {state.Value.Errors.FirstOrDefault()?.ErrorMessage}");
+                }
+            }
 
             if (ModelState.IsValid)
             {
                 await _roomService.AddNewRoom(room);
                 return RedirectToAction("Index", "Home");
             }
-            return View(room);
+
+            var hotels = await _hotelService.GetAllHotelsAsync();
+            ViewBag.Hotels = new SelectList(hotels, "Id", "Name");
+            return View("~/Views/AllRooms/Create.cshtml");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -75,6 +84,8 @@ namespace RoomBooking.Controllers
 
             if (ModelState.IsValid)
             {
+                room.HotelId = id;
+
                 await _roomService.UpdateRoom(room);
                 return RedirectToAction("Index", "Home");
             }

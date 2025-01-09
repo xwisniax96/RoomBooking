@@ -50,5 +50,13 @@ namespace RoomBooking.Services
                 .Include(r => r.Guests) 
                 .ToListAsync();
         }
+
+        public async Task<List<Room>> GetAllRoomsWithGuestsAndHotels()
+        {
+            return await _context.Rooms
+                .Include(r => r.Guests)
+                .Include(r => r.Hotel)
+                .ToListAsync();
+        }
     }
 }
